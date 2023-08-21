@@ -1,0 +1,39 @@
+- hosts: localhost
+  vars_files:
+    - ./secret.yml
+  vars:
+    - directory_dest: "{{ destination }}/{{ installer }}"
+  tasks:
+
+  - name: clean Runtime directory
+    file:
+      path: "{{ destination }}/Runtime"
+      state: absent
+  
+  - name: create directory RUNTIME
+    file:
+      path: "{{destination }}/Runtime"
+      state: directory
+      mode: "u=rwx,g=rwx,o=rwx"
+
+  - name: start Install solife
+    shell: "java -jar com.bsb.solife.jboss-installer-{{ Solife_Version }}.jar auto_installer.xml"
+    args:
+      chdir: "{{ directory_dest }}"
+
+  - name: backup jar file solife
+    copy:
+      src: "{{ directory_dest }}/com.bsb.solife.jboss-installer-{{ Solife_Version}}.jar"
+      dest: "{{ destination }}/Backup_file"
+      force: yes
+
+  - name: start solife
+    shell: nohup ./solife-start.sh &
+    #become: yes
+    args:
+      chdir: "{{ destination }}/Runtime/bin"
+    register: output_start 
+
+  - name: Show test output
+    debug:
+      var: output_start.stdout_lines
