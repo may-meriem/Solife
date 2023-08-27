@@ -1,6 +1,6 @@
 - hosts: localhost
   vars_files:
-    - ./secret.yml
+    - ./secrets.yml
   vars:
     - directory_dest: "{{ destination }}/{{ installer }}"
   tasks:
