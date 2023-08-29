@@ -5,16 +5,16 @@
     - directory_dest: "{{ destination }}/{{ installer }}"
   tasks:
 
-  - name: clean Runtime directory
-    file:
-      path: "{{ destination }}/Runtime"
-      state: absent
+  #- name: clean Runtime directory
+  # file:
+  #    path: "{{ destination }}/Runtime"
+  #    state: absent
   
-  - name: create directory RUNTIME
-    file:
-      path: "{{destination }}/Runtime"
-      state: directory
-      mode: "u=rwx,g=rwx,o=rwx"
+  #- name: create directory RUNTIME
+   # file:
+    #  path: "{{destination }}/Runtime"
+     # state: directory
+      #mode: "u=rwx,g=rwx,o=rwx"
 
   - name: start Install solife
     shell: "java -jar com.bsb.solife.jboss-installer-{{ Solife_Version }}.jar auto_installer.xml"
