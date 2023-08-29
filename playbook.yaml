@@ -28,7 +28,7 @@
       #force: yes
 
   - name: start solife
-    shell: nohup ./solife-start.sh &
+    shell: ./solife-start.sh 
     #become: yes
     args:
       chdir: "{{ destination }}/Runtime/bin"
