@@ -16,16 +16,16 @@
      # state: directory
       #mode: "u=rwx,g=rwx,o=rwx"
 
-  - name: start Install solife
-    shell: "java -jar com.bsb.solife.jboss-installer-{{ Solife_Version }}.jar auto_installer.xml"
-    args:
-      chdir: "{{ directory_dest }}"
+  #- name: start Install solife
+   # shell: "java -jar com.bsb.solife.jboss-installer-{{ Solife_Version }}.jar auto_installer.xml"
+    #args:
+     # chdir: "{{ directory_dest }}"
 
-  - name: backup jar file solife
-    copy:
-      src: "{{ directory_dest }}/com.bsb.solife.jboss-installer-{{ Solife_Version}}.jar"
-      dest: "{{ destination }}/Backup_file"
-      force: yes
+  #- name: backup jar file solife
+   # copy:
+    #  src: "{{ directory_dest }}/com.bsb.solife.jboss-installer-{{ Solife_Version}}.jar"
+     # dest: "{{ destination }}/Backup_file"
+      #force: yes
 
   - name: start solife
     shell: nohup ./solife-start.sh &
