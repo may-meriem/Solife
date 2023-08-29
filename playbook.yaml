@@ -5,31 +5,30 @@
     - directory_dest: "{{ destination }}/{{ installer }}"
   tasks:
 
-  #- name: clean Runtime directory
-  # file:
-  #    path: "{{ destination }}/Runtime"
-  #    state: absent
+  - name: clean Runtime directory
+   file:
+      path: "{{ destination }}/Runtime"
+      state: absent
   
-  #- name: create directory RUNTIME
-   # file:
-    #  path: "{{destination }}/Runtime"
-     # state: directory
-      #mode: "u=rwx,g=rwx,o=rwx"
+  - name: create directory RUNTIME
+    file:
+      path: "{{destination }}/Runtime"
+      state: directory
+      mode: "u=rwx,g=rwx,o=rwx"
 
-  #- name: start Install solife
-   # shell: "java -jar com.bsb.solife.jboss-installer-{{ Solife_Version }}.jar auto_installer.xml"
-    #args:
-     # chdir: "{{ directory_dest }}"
+  - name: start Install solife
+    shell: "java -jar com.bsb.solife.jboss-installer-{{ Solife_Version }}.jar auto_installer.xml"
+    args:
+     chdir: "{{ directory_dest }}"
 
-  #- name: backup jar file solife
-   # copy:
-    #  src: "{{ directory_dest }}/com.bsb.solife.jboss-installer-{{ Solife_Version}}.jar"
-     # dest: "{{ destination }}/Backup_file"
-      #force: yes
+  - name: backup jar file solife
+   copy:
+      src: "{{ directory_dest }}/com.bsb.solife.jboss-installer-{{ Solife_Version}}.jar"
+      dest: "{{ destination }}/Backup_file"
+      force: yes
 
   - name: start solife
     shell: ./solife-start.sh 
-    #become: yes
     args:
       chdir: "{{ destination }}/Runtime/bin"
     register: output_start 
@@ -37,3 +36,10 @@
   - name: Show test output
     debug:
       var: output_start.stdout_lines
+      
+  -name: Validating status solife
+    # become: yes
+    wait_for:
+        delay: 160
+        port: "{{ port }}"
+        msg: "solife is not started"
